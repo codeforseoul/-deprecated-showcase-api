@@ -1,14 +1,14 @@
 {
-  "name": "express-es6-rest-api",
-  "version": "0.2.0",
-  "description": "Starter project for an ES6 RESTful Express API",
+  "name": "showcase-api-exress-es6",
+  "version": "0.0.0",
+  "description": "ES6 RESTful Express API for Showcase Project",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Jason Miller <jason@developit.ca>",
-  "license": "Proprietary",
+  "author": "Hoony, Jang <thechunsik@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "babel": "^5.8.21",
     "body-parser": "^1.13.3",
@@ -18,5 +18,10 @@
     "express": "^4.13.3",
     "morgan": "^1.6.1",
     "resource-router-middleware": "^0.5.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-nodemon": "^2.0.4"
   }
 }
