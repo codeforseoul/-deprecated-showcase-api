@@ -16,7 +16,9 @@
     "cors": "^2.7.1",
     "ejs": "^2.3.3",
     "express": "^4.13.3",
+    "minimist": "^1.2.0",
     "morgan": "^1.6.1",
+    "mysql": "^2.10.2",
     "resource-router-middleware": "^0.5.1"
   },
   "devDependencies": {
