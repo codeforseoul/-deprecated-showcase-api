@@ -9,7 +9,6 @@ const NAMES = {
 }
 
 let queries = {
-  'createDb': `CREATE DATABASE ${NAMES.database} DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci`,
   'createUserTable': `CREATE TABLE ${NAMES.user} (id int auto_increment primary key, username varchar(30), password varchar(100))`,
   'createProjectTable': `CREATE TABLE ${NAMES.project} (id int auto_increment primary key, title varchar(30), description varchar(200))`,
   'createOwnerTable': `create table ${NAMES.owner} (owner int not null, project int not null, primary key(owner, project), foreign key (owner) references ${NAMES.user}(id) on update cascade, foreign key (project) references ${NAMES.project}(id) on update cascade)`,
@@ -23,17 +22,13 @@ export default function(callback) {
   let doReset = argv.reset;
   
   let conn = mysql.createConnection({
-    host     : 'localhost',
+    host     : '192.168.99.100',
     user     : process.env.mysqlUsername,
-    password : process.env.mysqlPassword
+    password : process.env.mysqlPassword,
+    database : 'showcase'
   });
 
-  sendQuery(conn, `${queries.createDb}`)
-    // create database named 'showcase'
-    .then(status => {
-      conn.changeUser({database: NAMES.database});
-      return sendQuery(conn, queries.createUserTable)
-    })
+  sendQuery(conn, queries.createUserTable)
     .then(status => {
       return sendQuery(conn, queries.createProjectTable)
     })
@@ -41,25 +36,31 @@ export default function(callback) {
       return sendQuery(conn, queries.createOwnerTable)
     })
     .then(status => {
-      console.log(status);
+      console.log('database connected successfully');
       callback(conn);
     })
     .catch(err => {
-      console.error(err);
-    })
+      let errno = err.errno;
+
+      if (errno == 1050) {
+        console.log('database connected successfully');
+        // this error means that tables are already exist
+        callback(conn);
+      } else {
+        console.error(err);
+        process.exit()
+      }
+    });
+
+    // conn.end();
 }
 
 function sendQuery(conn, query) {
   return new Promise((resolve, reject) => {
     conn.query(query, (err, var1, var2) => {
       if (err) reject(err);
-      
+
       resolve(var1, var2);
     })
   });
-}
-
-function resetDb(conn) {
-  let queries = `${queries.dropUserTable};${queries.dropProjectTable}`;
-  return sendQuery(conn, queries);
 }

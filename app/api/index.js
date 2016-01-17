@@ -1,12 +1,13 @@
 import { Router } from 'express';
-import facets from './facets';
+import users from './users';
 
 export default function() {
   var api = Router();
 
-  // mount the facets resource
-  api.use('/facets', facets);
 
+  // mount the database resource
+  api.use('/users', users);
+  
   // perhaps expose some API metadata at the root
   api.get('/', (req, res) => {
     res.json({
