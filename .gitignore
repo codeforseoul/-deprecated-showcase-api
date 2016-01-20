@@ -16,4 +16,6 @@ bower_components
 npm-debug.log
 node_modules
 server_old
-public
+
+# front page
+app/public
